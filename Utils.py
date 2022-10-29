@@ -1,9 +1,8 @@
-
 def objects_overlap(pos_down, pos_up):
     pos1 = [int(i) for i in pos_down]
     pos2 = [int(i) for i in pos_up]
     if pos1[0] == pos2[0] and pos1[1] <= pos2[1]:
-        print("passed")
+        print("passed", pos1, pos2)
         return True
     return False
 

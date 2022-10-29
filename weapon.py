@@ -33,7 +33,7 @@ class Weapon():
 
     def bullet_move(self):
         for i in self.bullets: 
-            if not i[1]==0: #går gjennom hver "bullet" og sjekker om den er i en ufo og at den ikke har nådd kanten
+            if not i[1]==0: #går gjennom hver "bullet" og sjekker at den ikke har nådd kanten
                 self.bullet_del(i)
                 i[1]-=1 #flytter bullet en pixel frem
                 self.bullet_draw(i)
@@ -44,6 +44,7 @@ class Weapon():
     def bullet_delete(self, bullet):
         self.bullet_del(bullet) #fjerner pixelen med bulleten 
         self.bullets.remove(bullet) #fjerner bullet fra listen så listen med bullets ikke blir uendelig lang
+        print(self.bullets)
 
     def shoot(self):
         if self.c == 1:
