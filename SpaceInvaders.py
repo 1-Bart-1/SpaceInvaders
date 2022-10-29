@@ -34,6 +34,8 @@ player = Player()
 weapon = Weapon(player.player_position)
 ufo = Ufo()
 
+def reset():
+    pass
 
 def update(shooting, running):
     sense.clear()
@@ -45,14 +47,14 @@ def update(shooting, running):
         shooting = weapon.shoot()
 
     if list_and_object_overlap(player.positions, ufo.pos):
-        running = False
+        playing = False
     
     if list_and_object_overlap(weapon.bullets, ufo.pos):
         print("deleting bullet and ufo")
         weapon.bullet_delete(weapon.bullets[0])
         ufo.reset_pos()
 
-    return shooting, running
+    return shooting, playing
 
 def render():
     for position in player.positions:
@@ -63,6 +65,7 @@ def render():
 
 running = True
 shooting = False
+playing = False
 while running:
     if sense.get_gyroscope_raw()['x'] < -2: shooting = True
 
@@ -71,11 +74,16 @@ while running:
         direction = event.direction
         if event.action == "pressed":
             if direction == "down":
+                playing = False
                 running = False
+            if direction == "up":
+                playing = True
     
-    if running:
-        shooting, running = update(shooting, running)
+    if playing:
+        shooting, playing = update(shooting, playing)
         render()
+    else: 
+        reset()
         
     sleep(1/10)
 
