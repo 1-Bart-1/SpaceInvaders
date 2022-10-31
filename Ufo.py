@@ -21,8 +21,8 @@ class Ufo():
         # Making a empty list for the (R, G, B) values for the ufo object color
         self.ufo_color = (255, 255, 255)
 
-        # Setting the number of pixels the ufo will move per time unit (maximum: 1)
-        self.angriness = 0.1
+        # Setting the number of pixels the ufo will move per time unit (maximum: 9)
+        self.angriness = 2
 
         # A list for the ufo position
         self.pos = [self.random(), 0]
@@ -55,11 +55,11 @@ class Ufo():
     def draw(self):
         self.set_color()
         # Checking if the ufo object y-axis value is below 8
-        if (int(self.pos[1] + self.angriness) < 8):
+        if (int(self.pos[1] + self.angriness*0.05) < 8):
             # Set a led pixel in the ufo object color
             sense.set_pixel(int(self.pos[0]), int(self.pos[1]), self.ufo_color)
             # Increase the ufo object y-axis value with the desired number of leds
-            self.pos[1] += self.angriness
+            self.pos[1] += self.angriness*0.05
         else:
             # If the ufo object y-axis value is bigger than 7, set value to 7 to avoid error
             self.pos[1] = 0

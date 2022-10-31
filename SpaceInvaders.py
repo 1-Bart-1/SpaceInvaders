@@ -10,13 +10,12 @@ from Utils import *
 sense = SenseHat()
 sense.low_light = True
 
+score_num = 0
 
 direction = "still"
 
-y = [0, 0, 0]    # Setter bakgrunnsfargen til hvit
-
+y = [0, 0, 0]    # Setter bakgrunnsfargen til svart
 g = [255,255,255]
-
 start_screen = [
 y, y, y, g, g, y, y, y,
 y, y, y, g, g, y, y, y,
@@ -38,18 +37,20 @@ y, g, y, g, y, g, y, y,
 y, y, y, y, y, y, y, y
 ]
 
-sense.clear()
-
 player = Player()
 weapon = Weapon(player.player_position)
 ufo = Ufo()
 
-def reset():
+sense.clear()
+
+def reset(score_num):
+    score_num = 0
     for bullet in weapon.bullets:
         weapon.bullet_delete(bullet)
     ufo.reset_pos()
+    return score_num
 
-def update(shooting, playing):
+def update(shooting, playing, score_num):
     sense.clear()
     player.movement(direction)
     weapon.update_x(int(player.player_position))
@@ -62,10 +63,11 @@ def update(shooting, playing):
         playing = False
     
     if list_and_object_overlap(weapon.bullets, ufo.pos):
+        score_num += 1
         weapon.bullet_delete(weapon.bullets[0])
         ufo.reset_pos()
 
-    return shooting, playing
+    return shooting, playing, score_num
 
 def render():
     for position in player.positions:
@@ -88,21 +90,22 @@ while running:
             if direction == "down":
                 if playing == False: running = False
                 playing = False
-            if direction == "up":
+            elif direction == "up":
                 start = False
                 playing = True
-            if not playing and ufo.angriness > 0:
-                if direction == "right":
-                    ufo.angriness += 0.05
-                if direction == "left":
-                    ufo.angriness -= 0.05
+            elif not playing and ufo.angriness > 0:
+                ufo.angriness = speed_up(ufo.angriness, direction)
+                sense.show_letter(str(ufo.angriness))
+                sleep(0.5)
 
     
     if playing:
-        shooting, playing = update(shooting, playing)
+        old_score_num = score_num
+        shooting, playing, score_num = update(shooting, playing, score_num)
+        if old_score_num != score_num: update_file(score_num)
         render()
     else: 
-        reset()
+        score_num = reset(score_num)
         if start:
             sense.set_pixels(start_screen)
         if not start: sense.set_pixels(bg)
@@ -111,4 +114,3 @@ while running:
 sense.set_pixels(bg)
 sleep(0.5)
 sense.clear(y)
-

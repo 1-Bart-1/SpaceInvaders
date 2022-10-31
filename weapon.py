@@ -44,7 +44,6 @@ class Weapon():
     def bullet_delete(self, bullet):
         self.bullet_del(bullet) #fjerner pixelen med bulleten 
         self.bullets.remove(bullet) #fjerner bullet fra listen så listen med bullets ikke blir uendelig lang
-        print(self.bullets)
 
     def shoot(self):
         if self.c == 1:
