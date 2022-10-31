@@ -15,7 +15,7 @@ score_num = 0
 direction = "still"
 
 y = [0, 0, 0]    # Setter bakgrunnsfargen til svart
-g = [255,255,255]
+g = [159, 43, 104]
 start_screen = [
 y, y, y, g, g, y, y, y,
 y, y, y, g, g, y, y, y,
