@@ -1,3 +1,5 @@
+# -- independent functions, that are used multiple times in different locations --
+
 def objects_overlap(pos_down, pos_up):
     pos1 = [int(i) for i in pos_down]
     pos2 = [int(i) for i in pos_up]

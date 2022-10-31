@@ -21,7 +21,7 @@ class Player():
         self.positions = []
     
 
-    def update_positions(self):
+    def update_positions(self): # Updates the list of pixel positions that is dependent on the player positions: player consists of 4 pixels
         self.positions.clear()
         self.positions.append([int(self.player_position),int(self.y)])
         self.positions.append([int(self.player_position), int(self.y+1)])
@@ -29,7 +29,7 @@ class Player():
         self.positions.append([int(self.player_position-1), int(self.y+1)])
    
 
-    def movement(self, direction):
+    def movement(self, direction): # Checks if movement is possible and returns new positions
         if direction == "left":
             if 1 <= self.player_position - self.speed <= 6:
                 self.player_position -= self.speed
@@ -39,3 +39,4 @@ class Player():
                 self.player_position += self.speed
         
         self.update_positions()
+        return self.positions

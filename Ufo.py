@@ -13,8 +13,6 @@ sense = SenseHat()
 
 class Ufo():
     def __init__(self):
-        ## ---- UFO color ----
-
         # Stating a variable for the temeprature value from the SenseHat
         self.rpi_temp = int(sense.temp)
 
@@ -46,7 +44,7 @@ class Ufo():
 
     # Function to generate a random x-axis position for the ufo object at each start, returns position
     def random(self):
-        # Randint generates a random position from x-axis pos. 1-6 to fit the gamescreen.
+        # Randint generates a random position from x-axis pos. 1-6 to fit the shooting range.
         random_x = randint(1,6)
         return random_x
 

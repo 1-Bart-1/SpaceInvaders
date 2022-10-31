@@ -50,6 +50,8 @@ def reset(score_num):
     ufo.reset_pos()
     return score_num
 
+
+# -- run one time every frame, check if things are overlapping, the heart of the program --
 def update(shooting, playing, score_num):
     sense.clear()
     player.movement(direction)
@@ -69,6 +71,8 @@ def update(shooting, playing, score_num):
 
     return shooting, playing, score_num
 
+# -- display information to pixels on sensehat --
+#   - a lot of refactoring is still needed to achieve this, now only player uses this method
 def render():
     for position in player.positions:
             sense.set_pixel(position[0], position[1], player.playerColor)
@@ -76,13 +80,16 @@ def render():
     return True
 
 
+# --booleans to keep track of program status --
 running = True
 shooting = False
 playing = False
 start = True
-while running:
-    if sense.get_gyroscope_raw()['x'] < -2: shooting = True
 
+# -- while loop to keep running frames, could be seen as main() --
+while running:
+    # -- get information from sensors and configure game status booleans --
+    if sense.get_gyroscope_raw()['x'] < -2: shooting = True
     direction = "still"
     for event in sense.stick.get_events():
         direction = event.direction
@@ -98,7 +105,7 @@ while running:
                 sense.show_letter(str(ufo.angriness))
                 sleep(0.5)
 
-    
+    # -- if statements to switch between parts of the program --
     if playing:
         old_score_num = score_num
         shooting, playing, score_num = update(shooting, playing, score_num)
@@ -111,6 +118,7 @@ while running:
         if not start: sense.set_pixels(bg)
     sleep(1/10)
 
+# -- shutoff --
 sense.set_pixels(bg)
 sleep(0.5)
 sense.clear(y)
